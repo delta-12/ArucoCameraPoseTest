@@ -1,1 +1,16 @@
+# vscode project settings
 .vscode
+
+# images
+*.HEIC
+calibrate_*.ping
+Photos-001.zip
+
+# cmake
+CMakeFiles
+CMakeCache.txt
+cmake_install.cmake
+Makefile
+
+# camera calibration
+camera_calibration.txt
