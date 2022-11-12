@@ -3,7 +3,7 @@
 
 # images
 *.HEIC
-calibrate_*.ping
+calibrate_*.png
 Photos-001.zip
 
 # cmake
