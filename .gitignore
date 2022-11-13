@@ -5,6 +5,7 @@
 *.HEIC
 calibrate_*.png
 Photos-001.zip
+estimage-pose_*.png
 
 # cmake
 CMakeFiles
