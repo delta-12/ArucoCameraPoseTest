@@ -1,11 +1,13 @@
 # vscode project settings
 .vscode
 
-# images
+# images and videos
 *.HEIC
 calibrate_*.png
 Photos-001.zip
 estimage-pose_*.png
+*.MOV
+*.mp4
 
 # cmake
 CMakeFiles
