@@ -16,4 +16,4 @@ cmake_install.cmake
 Makefile
 
 # camera calibration
-camera_calibration.txt
+camera_calibration.yaml

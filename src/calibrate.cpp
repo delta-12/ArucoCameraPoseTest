@@ -76,7 +76,7 @@ int main(int argc, char **argv)
     std::cout << "\nRe-production Error: " << repError << std::endl;
 
     // Save camera calibration to file
-    cv::FileStorage file("camera_calibration.txt", cv::FileStorage::WRITE);
+    cv::FileStorage file("camera_calibration.yaml", cv::FileStorage::WRITE);
     file << "Camera Matrix" << cameraMatrix;
     file << "Dist Coeffs" << distCoeffs;
     file.release();
