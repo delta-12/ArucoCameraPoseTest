@@ -4,6 +4,8 @@
 #include <opencv2/core.hpp>
 #include <opencv2/opencv.hpp>
 
+#include "aruco_dictionary_strings.h"
+
 #define CAMERA_WIDTH 3840
 #define CAMERA_HEIGHT 2160
 #define FILE_CAMERA_MATRIX "Camera Matrix"
@@ -12,11 +14,12 @@
 
 namespace
 {
-    const char *about = "Estimate pose from image file with ArUco marker";
+    const char *about = "Estimate pose from video file with ArUco marker";
 
     const char *keys =
         "{c         | /path/to/calibration/file.txt | Camera configuration file}"
-        "{v         | /path/to/video/file           | Video file}";
+        "{v         | /path/to/video/file           | Video file}"
+        "{t         | DICT_<tag dimensions>         | Tag dimensions";
 }
 
 int main(int argc, char **argv)
@@ -24,13 +27,14 @@ int main(int argc, char **argv)
     // Get command line args
     cv::CommandLineParser parser(argc, argv, keys);
     parser.about(about);
-    if (argc != 3)
+    if (argc != 4)
     {
         parser.printMessage();
         return 0;
     }
     std::string calibrationFile = parser.get<std::string>("c");
     std::string videoFile = parser.get<std::string>("v");
+    int tagDimensions = ARUCO_DICTIONARY_STRINGS[parser.get<std::string>("t")];
 
     // Read camera calibration from file
     cv::Mat cameraMatrix, distCoeffs;
@@ -40,7 +44,7 @@ int main(int argc, char **argv)
     inFile.release();
 
     // Get predefined dictionary
-    cv::Ptr<cv::aruco::Dictionary> dictionary = cv::aruco::getPredefinedDictionary(cv::aruco::DICT_4X4_50);
+    cv::Ptr<cv::aruco::Dictionary> dictionary = cv::aruco::getPredefinedDictionary(tagDimensions);
 
     // Read in video
     cv::VideoCapture inputVideo(videoFile);

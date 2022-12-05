@@ -4,6 +4,8 @@
 #include <opencv2/core.hpp>
 #include <opencv2/opencv.hpp>
 
+#include "aruco_dictionary_strings.h"
+
 #define FILE_CAMERA_MATRIX "Camera Matrix"
 #define FILE_DIST_COEFFS "Dist Coeffs"
 #define OUT_IMG_FILE_PREFIX "estimage-pose_"
@@ -14,7 +16,8 @@ namespace
 
     const char *keys =
         "{c         | /path/to/calibration/file.txt | Camera configuration file}"
-        "{i         | /path/to/image/file.png       | Image file}";
+        "{i         | /path/to/image/file.png       | Image file}"
+        "{t         | DICT_<tag dimensions>         | Tag dimensions}";
 }
 
 int main(int argc, char **argv)
@@ -22,13 +25,14 @@ int main(int argc, char **argv)
     // Get command line args
     cv::CommandLineParser parser(argc, argv, keys);
     parser.about(about);
-    if (argc != 3)
+    if (argc != 4)
     {
         parser.printMessage();
         return 0;
     }
     std::string calibrationFile = parser.get<std::string>("c");
     std::string imageFile = parser.get<std::string>("i");
+    int tagDimensions = ARUCO_DICTIONARY_STRINGS[parser.get<std::string>("t")];
 
     // Read camera calibration from file
     cv::Mat cameraMatrix, distCoeffs;
@@ -38,7 +42,7 @@ int main(int argc, char **argv)
     inFile.release();
 
     // Get predefined dictionary
-    cv::Ptr<cv::aruco::Dictionary> dictionary = cv::aruco::getPredefinedDictionary(cv::aruco::DICT_4X4_50);
+    cv::Ptr<cv::aruco::Dictionary> dictionary = cv::aruco::getPredefinedDictionary(tagDimensions);
 
     // Read in image
     cv::Mat image, imageCopy;

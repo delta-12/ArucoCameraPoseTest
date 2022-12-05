@@ -6,14 +6,34 @@
 #include <opencv2/core.hpp>
 #include <opencv2/opencv.hpp>
 
+#include "aruco_dictionary_strings.h"
+
 #define CAMERA_WIDTH 4032
 #define CAMERA_HEIGHT 3024
 #define CHARUCO_IMG_DIR "img/"
 const std::string IMGS[] = {"IMG_6708.png", "IMG_6709.png", "IMG_6710.png", "IMG_6711.png", "IMG_6712.png", "IMG_6713.png", "IMG_6714.png", "IMG_6715.png"};
 
+namespace
+{
+    const char *about = "Calibrate camera from image files with ChArUco boards";
+
+    const char *keys =
+        "{t         | DICT_<tag dimensions>         | Tag dimensions}";
+}
+
 int main(int argc, char **argv)
 {
-    cv::Ptr<cv::aruco::Dictionary> dictionary = cv::aruco::getPredefinedDictionary(cv::aruco::DICT_4X4_50);   // Get predefined dictionary
+    // Get command line args
+    cv::CommandLineParser parser(argc, argv, keys);
+    parser.about(about);
+    if (argc != 2)
+    {
+        parser.printMessage();
+        return 0;
+    }
+    int tagDimensions = ARUCO_DICTIONARY_STRINGS[parser.get<std::string>("t")];
+
+    cv::Ptr<cv::aruco::Dictionary> dictionary = cv::aruco::getPredefinedDictionary(tagDimensions);            // Get predefined dictionary
     cv::Ptr<cv::aruco::CharucoBoard> board = cv::aruco::CharucoBoard::create(5, 7, 0.04f, 0.01f, dictionary); // Create charuco board
     cv::Size imgSize(CAMERA_WIDTH, CAMERA_HEIGHT);                                                            // Camera image size
     std::vector<std::vector<cv::Point2f>> allCharucoCorners;

@@ -6,10 +6,12 @@ find_package( OpenCV REQUIRED )
 
 include_directories( OpenCV REQUIRED )
 
-add_executable(single_image_detect src/single_image_detect.cpp)
-add_executable(calibrate src/calibrate.cpp)
-add_executable(single_image_estimate_pose src/single_image_estimate_pose.cpp)
-add_executable(video_estimate_pose src/video_estimate_pose.cpp)
+set(HEADER_FILES src/aruco_dictionary_strings.h)
+
+add_executable(single_image_detect src/single_image_detect.cpp ${HEADER_FILES})
+add_executable(calibrate src/calibrate.cpp ${HEADER_FILES})
+add_executable(single_image_estimate_pose src/single_image_estimate_pose.cpp ${HEADER_FILES})
+add_executable(video_estimate_pose src/video_estimate_pose.cpp ${HEADER_FILES})
 
 target_link_libraries(single_image_detect ${OpenCV_LIBS})
 target_link_libraries(calibrate ${OpenCV_LIBS})
